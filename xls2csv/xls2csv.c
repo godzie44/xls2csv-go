@@ -23,7 +23,7 @@
 //           free(buf);
 //           buf = NUL;
 //       }
-char *xls2csv(char *pstrXLSFile, int nSheetId) {
+char *xls2csv(char *pstrXLSFile, int nSheetId, char *sep) {
     WORD i, j = 0;
     xlsWorkBook *pWB = NULL;
     xlsWorkSheet *pWS = NULL;
@@ -67,7 +67,7 @@ char *xls2csv(char *pstrXLSFile, int nSheetId) {
 	    }
 
 	    if (j != pWS->rows.lastcol - 1) {
-                buf = appendStr(buf, ";");
+                buf = appendStr(buf, sep);
 	    }
 	}
 

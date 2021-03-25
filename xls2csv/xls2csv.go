@@ -22,8 +22,8 @@ import (
 //     Return:
 //       records: CSV records. Each record is a slice of fields.
 //                See https://godoc.org/encoding/csv#Reader.ReadAll for more info.
-func XLS2CSV(xlsFile string, sheetID int) (records [][]string, err error) {
-	asCSV, err := SerializeXLS(xlsFile, sheetID)
+func XLS2CSV(xlsFile string, sheetID int, separator rune) (records [][]string, err error) {
+	asCSV, err := SerializeXLS(xlsFile, sheetID, separator)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func XLS2CSV(xlsFile string, sheetID int) (records [][]string, err error) {
 	return records, nil
 }
 
-func SerializeXLS(xlsFile string, sheetID int) (string, error) {
+func SerializeXLS(xlsFile string, sheetID int, separator rune) (string, error) {
 	var buf *C.char
 
 	f := C.CString(xlsFile)
@@ -48,9 +48,12 @@ func SerializeXLS(xlsFile string, sheetID int) (string, error) {
 
 	id := C.int(sheetID)
 
+	sep := C.CString(string(separator))
+	defer C.free(unsafe.Pointer(sep))
+
 	// xls2csv() will return a buffer(char *) contains CSV string.
 	// The buffer should be free in C.
-	buf = C.xls2csv(f, id)
+	buf = C.xls2csv(f, id, sep)
 	if buf == nil {
 		return "", fmt.Errorf("xls2csv() error")
 	}

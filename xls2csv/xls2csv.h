@@ -1,1 +1,1 @@
-extern char *xls2csv(char *pstrXLSFile, int nSheetId);
+extern char *xls2csv(char *pstrXLSFile, int nSheetId, char *sep);
