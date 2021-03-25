@@ -67,7 +67,7 @@ char *xls2csv(char *pstrXLSFile, int nSheetId) {
 	    }
 
 	    if (j != pWS->rows.lastcol - 1) {
-                buf = appendStr(buf, ",");
+                buf = appendStr(buf, ";");
 	    }
 	}
 
